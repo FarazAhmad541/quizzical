@@ -2,7 +2,7 @@ import Question from './components/Question'
 import './App.css'
 import { useState } from 'react'
 import { nanoid } from 'nanoid'
-import GetAnswersArray from './components/GetAnswersArray'
+import { GetAnswersArray } from './HelperFunctions'
 import { BounceLoader } from 'react-spinners'
 
 function App() {
@@ -27,17 +27,31 @@ function App() {
     setIsLoading(false)
   }
 
-  function startQuiz(){
+  function startQuiz() {
     setIsLoading(true)
     fetchData()
   }
 
   //Function to select answers
-  function toggleSelect(updatedQuestion) {
-    const newState = questions.map(question => {
-      return question.id === updatedQuestion.id ? updatedQuestion : question
-    })
-    setQuestions(newState)
+  function toggleSelect(QueID, AnsId) {
+    if (!quizEnded) {
+      const newState = questions.map(question => {
+
+        const newAnswersArray = question.options.map(ans => {
+          return ans.id === AnsId
+            ? { ...ans, isSelected: !ans.isSelected }
+            : { ...ans, isSelected: false }
+        })
+
+        return question.id === QueID
+          ? {
+            ...question,
+            options: newAnswersArray
+          }
+          : question
+      })
+      setQuestions(newState)
+    }
   }
 
   //Function to Compare Selected Answers with Correct Answers

@@ -1,21 +1,6 @@
-import DecodeHtml from "./DecodeHtml";
+import { DecodeHtml } from "../HelperFunctions"
 
 export default function Question(props) {
-    function toggle(id) {
-        if (!props.quizEnded) {
-            const newAnswersArray = props.options.map(ans => {
-                return ans.id === id ? { ...ans, isSelected: !ans.isSelected } : { ...ans, isSelected: false }
-            })
-
-            function newQuestion() {
-                return {
-                    ...props,
-                    options: newAnswersArray
-                }
-            }
-            return props.toggleSelect(newQuestion())
-        }
-    }
 
     const questionString = DecodeHtml(props.question)
     const answerElements = props.options.map(answer => {
@@ -38,14 +23,14 @@ export default function Question(props) {
         }
         return props.quizEnded ?
             <p className={compareAnswers()}
-                onClick={() => toggle(answer.id)}
+                onClick={() => props.toggleSelect(props.id, answer.id)}
                 key={answer.id}
             >
                 {DecodeHtml(answer.answer)}
             </p>
             :
             <p className="answer" style={styles}
-                onClick={() => toggle(answer.id)}
+                onClick={() => props.toggleSelect(props.id, answer.id)}
                 key={answer.id}
             >
                 {DecodeHtml(answer.answer)}
