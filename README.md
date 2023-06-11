@@ -1,4 +1,4 @@
-# todo-app
+# Quizzical
 
 => To check out live demo 🖥️ go to this link --- https://guileless-cobbler-8d4e88.netlify.app/
 
